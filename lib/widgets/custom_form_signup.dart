@@ -45,13 +45,10 @@ class _SigupFormState extends State<SigupForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
             child: SizedBox(
               width: 300,
-
-
               child: TextFormField(
                 keyboardType: TextInputType.phone,
                   onChanged: (value) {

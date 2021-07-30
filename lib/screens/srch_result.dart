@@ -6,11 +6,16 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class SearchScreen extends StatelessWidget {
-  late String blood;
-  SearchScreen(String blood) {
-    this.blood = blood;
-  }
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({Key? key, required this.blood}) : super(key: key);
+  static const String id = "SearchScreen";
+  final String blood;
+
+  @override
+  _SearchScreenState createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +49,7 @@ class SearchScreen extends StatelessWidget {
           ),
           backgroundColor: KonsecColor,
         ),
-        body: Body(this.blood));
+        body: Body(this.widget.blood));
   }
 }
 

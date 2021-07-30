@@ -1,44 +1,47 @@
-import 'package:flutter/material.dart';
-import 'package:one_blood/screens/home_screen.dart';
-import 'package:one_blood/screens/login.dart';
-import 'package:one_blood/screens/signup.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:one_blood/screens/info.dart';
-import 'package:one_blood/screens/srch_result.dart';
-
+import 'package:flutter/material.dart';
 import 'package:one_blood/contants.dart';
+import 'package:one_blood/route_generator.dart';
+import 'package:one_blood/screens/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(App());
+  runApp(FirebaseInitializer());
 }
 
-class App extends StatefulWidget {
-  _AppState createState() => _AppState();
+class FirebaseInitializer extends StatefulWidget {
+  _FirebaseInitializerState createState() => _FirebaseInitializerState();
 }
 
-class _AppState extends State<App> {
-  // Set default `_initialized` and `_error` state to false
-
+class _FirebaseInitializerState extends State<FirebaseInitializer> {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
-    // Show error message if initialization failed
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        // if(snapshot.hasError) return Any Screen You Can Build To Return Error
+        if (snapshot.connectionState == ConnectionState.done) return MyApp();
+        return Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+}
 
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: "OneBlood",
-      theme: ThemeData.light().copyWith(
-        accentColor: KonsecColor,
-      ),
-      // home: Home(),
-      initialRoute: '/login',
-      routes: {
-        '/': (context) => Home(),
-        '/signup': (context) => Signup(),
-        '/login': (context) => Signin(),
-        '/info': (context) => Myprofile(),
-        '/search': (context) => SearchScreen("AB+"),
-      },
+      theme: ThemeData.light().copyWith(accentColor: KonsecColor),
+      home: SignInScreen(),
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }

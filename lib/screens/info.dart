@@ -4,14 +4,13 @@ import 'package:one_blood/contants.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Myprofile extends StatefulWidget {
-  const Myprofile({Key? key}) : super(key: key);
-
+class MyProfileScreen extends StatefulWidget {
+  static const String id = "MyProfileScreen";
   @override
-  _MyprofileState createState() => _MyprofileState();
+  _MyProfileScreenState createState() => _MyProfileScreenState();
 }
 
-class _MyprofileState extends State<Myprofile> {
+class _MyProfileScreenState extends State<MyProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +27,7 @@ class _MyprofileState extends State<Myprofile> {
     );
   }
 }
+
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
 
@@ -45,7 +45,6 @@ class _BodyState extends State<Body> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        
         children: [
           MyImage(),
           Padding(
@@ -63,7 +62,6 @@ class _BodyState extends State<Body> {
                     animatedTexts: [
                       TypewriterAnimatedText('I am Farhan Ali Raza'),
                       // TypewriterAnimatedText('I am entrepreneur'),
-
                     ],
                     onTap: () {
                       print("Tap Event");
@@ -80,7 +78,6 @@ class _BodyState extends State<Body> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white70,
-
               ),
             ),
           ),
@@ -104,11 +101,7 @@ class _BodyState extends State<Body> {
                     children: [
                       Text(
                         "Github",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                     ],
                   )),
@@ -133,25 +126,20 @@ class _BodyState extends State<Body> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-
                       Text(
                         "Facebook",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                     ],
                   )),
             ),
           ),
-          
         ],
       ),
     );
   }
 }
+
 class MyImage extends StatelessWidget {
   const MyImage({Key? key}) : super(key: key);
 
@@ -162,9 +150,6 @@ class MyImage extends StatelessWidget {
         backgroundImage: AssetImage("images/pro.png"),
         radius: 80,
       ),
-      
     );
   }
 }
-
-

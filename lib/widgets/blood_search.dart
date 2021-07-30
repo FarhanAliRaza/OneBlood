@@ -3,6 +3,7 @@ import 'package:one_blood/contants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:one_blood/screens/srch_result.dart';
+
 class BloodSearch extends StatefulWidget {
   @override
   _BloodSearchState createState() => _BloodSearchState();
@@ -87,11 +88,11 @@ class _BloodSearchState extends State<BloodSearch> {
                 width: 220,
                 child: GestureDetector(
                   onTap: () {
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen(this.bloodType.toString())));
-
-                      }
-                        print("tapped");
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.pushNamed(context, SearchScreen.id,
+                          arguments: bloodType.toString());
+                    }
+                    print("tapped");
                   },
                   child: Container(
                       padding: EdgeInsets.all(5),

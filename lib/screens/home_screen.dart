@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:one_blood/contants.dart';
 import 'package:one_blood/widgets/homebutton.dart';
 import 'package:one_blood/widgets/blood_search.dart';
-class Home extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  static const String id = "HomeScreen";
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
