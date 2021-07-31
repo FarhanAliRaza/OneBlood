@@ -6,6 +6,8 @@ class Auth {
 
   User? get currentUser => _auth.currentUser;
 
+  Future signOut() async => await _auth.signOut();
+
   Future signUpWithEmailAndPassword(String email, String password) async {
     await _auth.createUserWithEmailAndPassword(
         email: email, password: password);

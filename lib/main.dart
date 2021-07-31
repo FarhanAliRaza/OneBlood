@@ -1,12 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:one_blood/contants.dart';
 import 'package:one_blood/route_generator.dart';
 import 'package:one_blood/screens/login.dart';
+import 'package:one_blood/services/authentication.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // await Auth().signOut();
   runApp(FirebaseInitializer());
 }
 

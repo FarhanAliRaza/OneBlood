@@ -3,6 +3,8 @@ import 'package:one_blood/contants.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:one_blood/screens/home_screen.dart';
+import 'package:one_blood/services/firestore_database.dart';
 import 'package:one_blood/services/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,10 +16,13 @@ class SigupForm extends StatefulWidget {
 }
 
 class _SigupFormState extends State<SigupForm> {
-  final _auth = FirebaseAuth.instance;
-  final _formKey = GlobalKey<FormState>();
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  FireStore fireStore = FireStore();
+  Location location = Location();
+  Position? position;
 
   final List<String> listOfBlood = [
     'A+',
@@ -29,12 +34,7 @@ class _SigupFormState extends State<SigupForm> {
     'AB+',
     'AB-'
   ];
-  String? username;
-  String? phone;
-  String? pass;
-  String? bloodType;
-  double? lon;
-  double? lat;
+  String selectedBloodType = 'A+';
   bool _saving = false;
 
   @override
@@ -50,22 +50,8 @@ class _SigupFormState extends State<SigupForm> {
             child: SizedBox(
               width: 300,
               child: TextFormField(
-                keyboardType: TextInputType.phone,
-                  onChanged: (value) {
-                    setState(() {
-                      try{
-                        int v = int.parse(value);
-
-                        this.phone = v.toString();
-                        print(this.phone);
-
-                      }
-                      on Exception catch(e){
-                        print(e);
-                      }
-
-                    });
-                  },
+                  keyboardType: TextInputType.phone,
+                  controller: phoneController,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   maxLength: 11,
                   style: TextStyle(color: KonsecColor, fontSize: 15.0),
@@ -89,18 +75,11 @@ class _SigupFormState extends State<SigupForm> {
                   }),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: SizedBox(
               width: 300,
               child: DropdownButtonFormField(
-                validator: (value){
-                  if (value.toString() == ''){
-                    return 'Please Select a Blood Type';
-
-                  }
-                },
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: KonsecColor, width: 3)),
@@ -108,27 +87,22 @@ class _SigupFormState extends State<SigupForm> {
                       borderSide: BorderSide(color: KonsecColor, width: 1)),
                   border: OutlineInputBorder(),
                 ),
-                hint: Text(
-                  'BloodType',
-                ),
+                hint: Text('BloodType'),
                 isExpanded: true,
-                onChanged: (value) {
-                  setState(() {
-                    this.bloodType = value.toString();
-                  });
-                },
-                onSaved: (value) {
-                  setState(() {});
-                },
-                items: listOfBlood.map((String val) {
-                  return DropdownMenuItem(
-                    value: val,
-                    child: Text(
-                      val,
-                      style: TextStyle(fontSize: 15, color: KonsecColor,),
-                    ),
-                  );
-                }).toList(),
+                onChanged: (value) =>
+                    setState(() => selectedBloodType = value as String),
+                items: listOfBlood
+                    .map((String value) => DropdownMenuItem(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: KonsecColor,
+                            ),
+                          ),
+                        ))
+                    .toList(),
               ),
             ),
           ),
@@ -136,51 +110,26 @@ class _SigupFormState extends State<SigupForm> {
             padding: const EdgeInsets.all(15.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: KonsecColor,
-
-                padding: EdgeInsets.all(20)
-              ),
-              onPressed: () async{
-                // Validate returns true if the form is valid, or false otherwise.
+                  primary: KonsecColor, padding: EdgeInsets.all(20)),
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text('Saving Data')));
-                  Location loc = Location();
-                  // print("ok");
                   try {
-                    Position p = await loc.getCurrLoc();
-                    lat = p.latitude;
-                    lon = p.longitude;
-                    final User? user = await _auth.currentUser;
-                    _firestore.collection("userdata").doc(user!.uid).set(
-                        {
-                          "email" : user.email,
-                          'name' : user.displayName,
-                          "bloodtype" : this.bloodType,
-                          "lat" : lat,
-                          "lon" : lon,
-                          "phone" : phone
-                        }).then((_){
-                      Navigator.pushNamed(context, '/');
-
-                      print("success!");
-                    });
-
-
+                    position = await location.getCurrLoc();
+                    if (position != null) {
+                      await fireStore.saveUserToDB(
+                          selectedBloodType,
+                          position!.latitude,
+                          position!.longitude,
+                          phoneController.text);
+                      Navigator.pushNamed(context, HomeScreen.id);
+                    }
+                  } on Exception catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            'Settings > Apps > One Blood > Permissions > Turn ON Location Permission')));
                   }
-                  on Exception catch(_){
-                    print(_);
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text('Settings > Apps > One Blood > Permissions > Turn ON Location Permission')));
-
-                  }
-
-                  // print("ok");
-                  // print(p);
-
-
                 }
               },
               child: Text('Submit'),
