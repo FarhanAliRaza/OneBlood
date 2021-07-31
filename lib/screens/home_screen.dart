@@ -1,57 +1,87 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:one_blood/contants.dart';
-import 'package:one_blood/widgets/homebutton.dart';
-import 'package:one_blood/widgets/blood_search.dart';
+import 'package:one_blood/screens/srch_result.dart';
+import 'package:one_blood/services/blood_request.dart';
+import 'package:one_blood/services/location.dart';
+import 'package:one_blood/widgets/blood_type_dropdown.dart';
+
 class HomeScreen extends StatefulWidget {
   static const String id = "HomeScreen";
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(icon: Icon(Icons.home_outlined), iconSize: 35, color: KonsecColor, onPressed: () {}),
-            // Spacer(),
-            IconButton(icon: Icon(Icons.info_outlined), iconSize: 35, color: KonsecColor, onPressed: () {
-              Navigator.pushNamed(context, '/info');
-            }),
-          ],
-        ),
-      ),
+  final _formKey = GlobalKey<FormState>();
+  Location location = Location();
+  Position? position;
 
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "One Blood",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-        ),
-        backgroundColor: KonsecColor,
-      ),
-      body: Body()
-    );
-  }
-}
-
-class Body extends StatelessWidget {
+  String selectedBloodType = 'A+';
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          BloodSearch(),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            searchDropDown(),
+            StreamBuilder<List>(
+              stream: BloodRequestService().bloodRequests,
+              builder: (context, snapshots) {
+                if (snapshots.data != null) if (snapshots.data!.isEmpty)
+                  return Center(
+                    child: Text("No Requests"),
+                  );
 
-        ],
+                if (snapshots.hasData) return requestBuilder(snapshots.data);
+
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
+
+  Widget requestBuilder(List? data) => Expanded(
+        child: ListView.builder(
+          itemCount: data!.length,
+          itemBuilder: (context, index) {
+            return Card(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              child: Container(
+                height: 60,
+                child: Row(
+                  children: [
+                    Text("Hello"),
+                    Text("Hello"),
+                    Text("Hello"),
+                  ],
+                ),
+              ),
+            );
+            // data[index]
+          },
+        ),
+      );
+
+  Widget searchDropDown() => Row(
+        children: [
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: BloodTypeDropDown(
+                  onChanged: (value) =>
+                      setState(() => selectedBloodType = value as String)),
+            ),
+          )
+        ],
+      );
 }

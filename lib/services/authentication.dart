@@ -6,6 +6,8 @@ class Auth {
 
   User? get currentUser => _auth.currentUser;
 
+  Stream<User?> get authState => _auth.authStateChanges();
+
   Future signOut() async => await _auth.signOut();
 
   Future signUpWithEmailAndPassword(String email, String password) async {

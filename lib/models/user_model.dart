@@ -12,14 +12,16 @@ class UserModel {
     required this.lon,
     required this.name,
     required this.phone,
+    required this.uid,
   });
 
   String bloodType;
-  DateTime email;
+  String email;
   double lat;
   double lon;
-  String name;
+  String? name;
   String phone;
+  String uid;
 
   factory UserModel.fromRawJson(String str) =>
       UserModel.fromJson(json.decode(str));
@@ -28,19 +30,21 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         bloodType: json["bloodtype"],
-        email: DateTime.parse(json["email"]),
+        email: json["email"],
         lat: json["lat"].toDouble(),
         lon: json["lon"].toDouble(),
         name: json["name"],
         phone: json["phone"],
+        uid: json["uid"],
       );
 
   Map<String, dynamic> toJson() => {
         "bloodtype": bloodType,
-        "email": email.toIso8601String(),
+        "email": email,
         "lat": lat,
         "lon": lon,
         "name": name,
         "phone": phone,
+        "uid": uid,
       };
 }

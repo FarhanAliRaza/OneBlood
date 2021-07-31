@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:one_blood/contants.dart';
 import 'package:one_blood/models/user_model.dart';
-import 'package:one_blood/screens/home_screen.dart';
+import 'package:one_blood/screens/tab_screen.dart';
 import 'package:one_blood/screens/login.dart';
 import 'package:one_blood/screens/profile_detail_screen.dart';
 import 'package:one_blood/services/authentication.dart';
-import 'package:one_blood/services/firestore_database.dart';
+import 'package:one_blood/services/user_services.dart';
 import 'package:one_blood/widgets/heading.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -86,11 +86,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           final User? user = auth.currentUser;
 
           if (user != null) {
-            UserModel? userData = await FireStore().getUserData(user.uid);
+            UserModel? userData = await UserService().getUserData(user.uid);
             if (userData == null)
               Navigator.pushReplacementNamed(context, UserDataScreen.id);
             if (userData != null)
-              Navigator.pushReplacementNamed(context, HomeScreen.id);
+              Navigator.pushReplacementNamed(context, TabScreen.id);
           }
         }
       },

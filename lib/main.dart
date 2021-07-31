@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:one_blood/contants.dart';
 import 'package:one_blood/route_generator.dart';
+import 'package:one_blood/screens/tab_screen.dart';
 import 'package:one_blood/screens/login.dart';
 import 'package:one_blood/services/authentication.dart';
 
@@ -40,11 +41,26 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "OneBlood",
-      theme: ThemeData.light().copyWith(accentColor: KonsecColor),
-      home: SignInScreen(),
-      onGenerateRoute: RouteGenerator.generateRoute,
+    return StreamBuilder<User?>(
+      stream: Auth().authState,
+      builder: (context, asyncSnapshot) {
+        if (asyncSnapshot.data != null)
+          return MaterialApp(
+            title: "OneBlood",
+            theme: ThemeData.light().copyWith(accentColor: KonsecColor),
+            home: TabScreen(),
+            onGenerateRoute: RouteGenerator.generateRoute,
+          );
+        if (asyncSnapshot.data == null)
+          return MaterialApp(
+            title: "OneBlood",
+            theme: ThemeData.light().copyWith(accentColor: KonsecColor),
+            home: SignInScreen(),
+            onGenerateRoute: RouteGenerator.generateRoute,
+          );
+
+        return Center(child: CircularProgressIndicator());
+      },
     );
   }
 }

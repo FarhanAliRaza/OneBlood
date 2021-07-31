@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:one_blood/models/user_model.dart';
-import 'package:one_blood/screens/home_screen.dart';
+import 'package:one_blood/screens/tab_screen.dart';
 import 'package:one_blood/screens/profile_detail_screen.dart';
 import 'package:one_blood/screens/sign_up_screen.dart';
 import 'package:one_blood/services/authentication.dart';
-import 'package:one_blood/services/firestore_database.dart';
+import 'package:one_blood/services/user_services.dart';
 import 'package:one_blood/widgets/heading.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,7 +21,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   Auth auth = Auth();
-  FireStore fireStore = FireStore();
+  UserService fireStore = UserService();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();

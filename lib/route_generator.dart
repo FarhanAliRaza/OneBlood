@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:one_blood/screens/home_screen.dart';
+import 'package:one_blood/screens/blood_request_screen.dart';
+import 'package:one_blood/screens/tab_screen.dart';
 import 'package:one_blood/screens/info.dart';
 import 'package:one_blood/screens/login.dart';
 import 'package:one_blood/screens/profile_detail_screen.dart';
@@ -10,8 +11,8 @@ import 'package:one_blood/screens/srch_result.dart';
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case HomeScreen.id:
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+      case TabScreen.id:
+        return MaterialPageRoute(builder: (_) => TabScreen());
       case SignInScreen.id:
         return MaterialPageRoute(builder: (_) => SignInScreen());
       case SignUpScreen.id:
@@ -23,6 +24,9 @@ class RouteGenerator {
       case SearchScreen.id:
         return MaterialPageRoute(
             builder: (_) => SearchScreen(blood: settings.arguments as String));
+      case BloodRequestScreen.id:
+        return MaterialPageRoute(builder: (_) => BloodRequestScreen());
+
       default:
         return _errorRoute();
     }
