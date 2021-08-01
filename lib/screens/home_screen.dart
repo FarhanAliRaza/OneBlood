@@ -78,14 +78,14 @@ class _HomeScreenState extends State<HomeScreen> {
           itemBuilder: (context, index) {
             return Card(
               margin: EdgeInsets.symmetric(horizontal: 8),
-              child: Container(
-                height: 60,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: ListTile(
+                // leading: Image.network(data[index].user.profileImage),
+                title: Text(data[index].user.name),
+                subtitle: Text(data[index].city),
+                trailing: Column(
                   children: [
-                    Text(data[index].user.name),
-                    Text(data[index].numberOfBottles.toString()),
-                    Text(data[index].city),
+                    Text("No of."),
+                    Text("bottles"),
                   ],
                 ),
               ),
@@ -95,6 +95,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
 
+  // Row(
+  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  // children: [
+  // Text(data[index].user.name),
+  // Text(data[index].numberOfBottles.toString()),
+  // Text(data[index].city),
+  // ],
+  // )
   Widget searchDropDown(UserModel user) => Row(
         children: [
           Expanded(

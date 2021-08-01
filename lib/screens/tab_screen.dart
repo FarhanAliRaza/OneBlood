@@ -24,7 +24,7 @@ class _TabScreenState extends State<TabScreen> {
         selectedItemColor: KonsecColor,
         onTap: (index) => setState(() => selectedIndex = index),
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Requests"),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings), label: "Settings"),
         ],

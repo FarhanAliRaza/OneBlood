@@ -32,7 +32,11 @@ class UserService {
   }
 
   Future saveUserToDB(
-      String bloodType, double latitude, double longitude, String phone) async {
+    String bloodType,
+    double latitude,
+    double longitude,
+    String phone,
+  ) async {
     User? user = Auth().currentUser;
     await usersCollection.doc(user!.uid).set({
       "uid": user.uid,
@@ -41,7 +45,11 @@ class UserService {
       "bloodtype": bloodType,
       "lat": latitude,
       "lon": longitude,
-      "phone": phone
+      "phone": phone,
+      "profileImage": user.photoURL,
+      "filters": {
+        "requestingBlood": bloodType,
+      }
     });
   }
 }

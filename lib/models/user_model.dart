@@ -13,6 +13,7 @@ class UserModel {
     required this.name,
     required this.phone,
     required this.uid,
+    required this.profileImage,
     required this.filters,
   });
 
@@ -23,6 +24,7 @@ class UserModel {
   String name;
   String phone;
   String uid;
+  String profileImage;
   Filters filters;
 
   factory UserModel.fromRawJson(String str) =>
@@ -36,6 +38,7 @@ class UserModel {
         lat: json["lat"].toDouble(),
         lon: json["lon"].toDouble(),
         name: json["name"],
+        profileImage: json["profileImage"],
         phone: json["phone"],
         uid: json["uid"],
         filters: Filters.fromJson(json["filters"]),
@@ -49,6 +52,7 @@ class UserModel {
         "name": name,
         "phone": phone,
         "uid": uid,
+        "profileImage": profileImage,
         "filters": filters.toJson(),
       };
 }
