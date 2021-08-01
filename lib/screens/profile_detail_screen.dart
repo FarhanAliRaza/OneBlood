@@ -83,6 +83,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                       child: SizedBox(
                         width: 300,
                         child: BloodTypeDropDown(
+                            value: selectedBloodType,
                             onChanged: (value) => setState(
                                 () => selectedBloodType = value as String)),
                       ),

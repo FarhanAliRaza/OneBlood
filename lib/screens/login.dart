@@ -41,29 +41,62 @@ class _SignInScreenState extends State<SignInScreen> {
                   image: AssetImage("images/donor.png"),
                   height: 270,
                   width: double.infinity),
-              SizedBox(height: 40),
-              signInTextField(
-                  emailController, "Email Address", TextInputType.emailAddress),
-              SizedBox(height: 10),
-              signInTextField(passwordController, "Password",
-                  TextInputType.visiblePassword, true),
-              SizedBox(height: 10),
-              Row(
-                children: [signUpButton(), SizedBox(width: 16), loginButton()],
+              SizedBox(height: 30),
+              MaterialButton(
+                padding: EdgeInsets.all(2),
+                onPressed: () async {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('Logging in')));
+                  await auth.signInWithGoogle();
+                },
+                height: 60,
+                color: Colors.blue.shade400,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      width: 60,
+                      height: 60,
+                      child: Image.asset('images/gg.png'),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2),
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    Text(
+                      "Sign in with Google",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    SizedBox(width: 16),
+                  ],
+                ),
               ),
-              Divider(indent: 12, endIndent: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  MaterialButton(
-                    onPressed: () {},
-                    height: 70,
-                    shape: CircleBorder(
-                        side: BorderSide(color: Colors.grey.shade200)),
-                    child: Image.asset('images/gg.png', height: 50),
-                  ),
-                ],
-              ),
+              // SizedBox(height: 40),
+              // signInTextField(
+              //     emailController, "Email Address", TextInputType.emailAddress),
+              // SizedBox(height: 10),
+              // signInTextField(passwordController, "Password",
+              //     TextInputType.visiblePassword, true),
+              // SizedBox(height: 10),
+              // Row(
+              //   children: [signUpButton(), SizedBox(width: 16), loginButton()],
+              // ),
+              // Divider(indent: 12, endIndent: 12),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     MaterialButton(
+              //       onPressed: () {},
+              //       height: 70,
+              //       shape: CircleBorder(
+              //           side: BorderSide(color: Colors.grey.shade200)),
+              //       child: Image.asset('images/gg.png', height: 50),
+              //     ),
+              //   ],
+              // ),
               // SizedBox(
               //   width: 300,
               //   child: GestureDetector(

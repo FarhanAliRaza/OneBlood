@@ -8,6 +8,21 @@ class UserService {
   CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('userdata');
 
+  Stream<UserModel> userStream() {
+    return usersCollection
+        .doc(Auth().currentUser!.uid)
+        .snapshots()
+        .map((doc) => UserModel.fromJson(doc.data() as Map<String, dynamic>));
+  }
+
+  updateUserFilters(String requestingBlood) {
+    usersCollection.doc(Auth().currentUser!.uid).update({
+      "filters": {
+        "requestingBlood": requestingBlood,
+      }
+    });
+  }
+
   Future<UserModel?> getUserData(String uid) async {
     UserModel? user;
     DocumentSnapshot document = await usersCollection.doc(uid).get();

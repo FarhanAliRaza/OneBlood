@@ -33,6 +33,7 @@ class _BloodSearchState extends State<BloodSearch> {
               child: SizedBox(
                 width: 300,
                 child: BloodTypeDropDown(
+                    value: selectedBloodType,
                     onChanged: (value) =>
                         setState(() => selectedBloodType = value as String)),
               ),

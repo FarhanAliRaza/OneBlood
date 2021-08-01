@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:one_blood/contants.dart';
 import 'package:one_blood/services/blood_request.dart';
 import 'package:one_blood/services/location.dart';
+import 'package:one_blood/widgets/blood_type_dropdown.dart';
 
 class BloodRequestScreen extends StatefulWidget {
   static const String id = "BloodRequestScreen";
@@ -59,6 +60,8 @@ class _BloodRequestScreenState extends State<BloodRequestScreen> {
                 "City must not be empty"),
             SizedBox(height: 10),
             bottlesCounter(),
+            SizedBox(height: 10),
+            searchDropDown(),
             Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -71,7 +74,8 @@ class _BloodRequestScreenState extends State<BloodRequestScreen> {
                           position!.latitude,
                           position!.longitude,
                           cityController.text,
-                          numberOfBottles);
+                          numberOfBottles,
+                          selectedBloodType);
                       Navigator.pop(context);
                     }
                   },
@@ -146,4 +150,18 @@ class _BloodRequestScreenState extends State<BloodRequestScreen> {
       ),
     );
   }
+
+  Widget searchDropDown() => Row(
+        children: [
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: BloodTypeDropDown(
+                  value: selectedBloodType,
+                  onChanged: (value) =>
+                      setState(() => selectedBloodType = value as String)),
+            ),
+          )
+        ],
+      );
 }

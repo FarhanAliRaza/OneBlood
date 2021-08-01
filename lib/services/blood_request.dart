@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:one_blood/models/request_model.dart';
 import 'package:one_blood/models/user_model.dart';
 import 'package:one_blood/services/authentication.dart';
 import 'package:one_blood/services/user_services.dart';
@@ -8,11 +9,17 @@ class BloodRequestService {
   CollectionReference bloodRequestCollection =
       FirebaseFirestore.instance.collection('requests');
 
-  Stream<List> get bloodRequests =>
-      bloodRequestCollection.snapshots().map((event) => event.docs.toList());
+  Stream<List<RequestModel>> bloodRequests(String bloodType) =>
+      bloodRequestCollection
+          .where('requestingBlood', isEqualTo: bloodType)
+          .snapshots()
+          .map((event) => event.docs
+              .map((e) =>
+                  RequestModel.fromJson(e.data() as Map<String, dynamic>))
+              .toList());
 
-  Future addRequest(
-      double latitude, double longitude, String city, int bottles) async {
+  Future addRequest(double latitude, double longitude, String city, int bottles,
+      String requestingBlood) async {
     UserModel? user = await UserService().getUserData(Auth().currentUser!.uid);
     await bloodRequestCollection.doc().set({
       "user": user!.toJson(),
@@ -20,6 +27,7 @@ class BloodRequestService {
       "longitude": longitude,
       "city": city,
       "numberOfBottles": bottles,
+      "requestingBlood": requestingBlood,
     });
   }
 }

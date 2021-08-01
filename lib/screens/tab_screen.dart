@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:one_blood/contants.dart';
 import 'package:one_blood/screens/blood_request_screen.dart';
 import 'package:one_blood/screens/home_screen.dart';
-import 'package:one_blood/screens/info.dart';
+import 'package:one_blood/screens/setting_screen.dart';
 import 'package:one_blood/widgets/homebutton.dart';
 
 class TabScreen extends StatefulWidget {
@@ -15,7 +15,7 @@ class TabScreen extends StatefulWidget {
 class _TabScreenState extends State<TabScreen> {
   int selectedIndex = 0;
 
-  List<Widget> screens = [HomeScreen(), MyProfileScreen()];
+  List<Widget> screens = [HomeScreen(), SettingScreen()];
 
   @override
   Widget build(BuildContext context) {

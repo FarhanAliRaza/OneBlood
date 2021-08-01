@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "926827672006-7njlgl1rih1cmn72vbisreomvst77div.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.burak.one_blood",
+            "certificate_hash": "b22dc911b97550af453f0f20083f0ce577cdb72f"
+          }
+        },
+        {
+          "client_id": "926827672006-ggju9chmjgb90tf4nvulltaff3t9mcuk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.burak.one_blood",
+            "certificate_hash": "a17b82484432a2e0a5a07e4a1c54dbda7e3300cf"
+          }
+        },
+        {
           "client_id": "926827672006-ulicmooiil6fdai5kpluf0ilkfvil5ai.apps.googleusercontent.com",
           "client_type": 3
         }
